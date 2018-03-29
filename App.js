@@ -35,12 +35,6 @@ export default class App extends React.Component {
   render() {
     return (
       <View>
-      <Header
-      style={{ padding: 10 }}
-      leftComponent={{ icon: 'menu', color: '#fff' }}
-      centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'home', color: '#fff' }}
-      />
       <Login />
       </View>
       );
