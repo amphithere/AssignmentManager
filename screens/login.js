@@ -21,7 +21,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 
 const { height, width } = Dimensions.get('window');
-const bg_image = require('./public/images/bg_screen2.jpg');
+const bg_image = require('../public/images/bg_screen2.jpg');
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental
