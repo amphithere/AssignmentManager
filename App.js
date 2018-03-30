@@ -1,5 +1,6 @@
 
-import Login from './screens/login.js';
+import Login from './screens/Login';
+import Logout from './screens/Logout';
 
 import React, { Component } from 'react';
 
@@ -22,21 +23,40 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import firebase from 'react-native-firebase';
 
-import { Buttons } from './Buttons.js';
-
 
 export default class App extends React.Component {
 
-  constructor(){
+   constructor() {
     super();
-    this.ref = firebase.firestore().collection('todos');
+    this.unsubscriber = null;
+    this.state = {
+      user: null,
+    };
+  }
+
+  /**
+   * Listen for any auth state changes and update component state
+   */
+  componentDidMount() {
+    this.unsubscriber = firebase.auth().onAuthStateChanged((user) => {
+      this.setState({ user });
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscriber) {
+      this.unsubscriber();
+    }
   }
 
   render() {
+    if (!this.state.user) {
+      return <Login />;
+    }
+
     return (
-      <View>
-      <Login />
-      </View>
-      );
+      <Logout user={this.state.user} unsubscriber={firebase.auth()}/>
+    );
   }
+
 }

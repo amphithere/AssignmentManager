@@ -19,6 +19,8 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
+import firebase from 'react-native-firebase';
+
 
 const { height, width } = Dimensions.get('window');
 const bg_image = require('../public/images/bg_screen2.jpg');
@@ -81,6 +83,19 @@ export default class Login extends Component {
       password,
     } = this.state;
     this.setState({ isLoading: true });
+
+    firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
+    .then((user) => {
+      // If you need to do anything with the user, do it here
+      // The user will be logged in automatically by the 
+      // `onAuthStateChanged` listener we set up in App.js earlier
+    })
+    .catch((error) => {
+      const { code, message } = error;
+      // For details of error codes, see the docs
+      // The message contains the default Firebase string
+      // representation of the error
+    });
     // Simulate an API call
     setTimeout(() => {
       LayoutAnimation.easeInEaseOut();
@@ -92,14 +107,30 @@ export default class Login extends Component {
     }, 1500);
   }
 
+
+
   signUp() {
     const {
       email,
       password,
       passwordConfirmation,
     } = this.state;
+
     this.setState({ isLoading: true });
     // Simulate an API call
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((user) => {
+      // If you need to do anything with the user, do it here
+      // The user will be logged in automatically by the
+      // `onAuthStateChanged` listener we set up in App.js earlier
+    })
+    .catch((error) => {
+      const { code, message } = error;
+      // For details of error codes, see the docs
+      // The message contains the default Firebase string
+      // representation of the error
+    });
+
     setTimeout(() => {
       LayoutAnimation.easeInEaseOut();
       this.setState({
