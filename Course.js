@@ -7,6 +7,7 @@ import {
 	Alert,
 	FlatList,
 	ScrollView,
+	Dimensions,
 } from "react-native";
 
 import {
@@ -17,6 +18,7 @@ import {
 	ButtonGroup,
 	ListItem,
 	Divider,
+	Card
 } from "react-native-elements";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -88,53 +90,66 @@ export default class Course extends Component {
 	keyExtractor = (item, index) => String(index)
 	
 	renderItem = ({ item }) => (
+		<View>
 		<ListItem 
 		title={item.course_code} 
 		subtitle={
 			<View style={styles.subtitleView}>
-			<Text style={styles.ratingText}>{item.semester}</Text>
+				<Text style={styles.ratingText}>{item.semester}</Text>
 			</View>
 		} 
 		/>
+		<Divider />
+		</View>
 		)
+
+
+
 
 	render() {
 		if (this.state.loading) return <Text h2>hi</Text>; // or render a loading icon
 
 		return (
-			<View style={{ paddingBottom: 50 }}>
-			<Text h2>List of Courses</Text>
-			<ScrollView>
 			<View>
-			<FlatList 
-			keyExtractor={this.keyExtractor}
-			data={this.state.courses}
-			renderItem={this.renderItem}
-			/>
-			</View>
-			</ScrollView>
-			<ScrollView>
+					<Card 
+						title='List of Courses'
+						containerStyle={{height: 300}}
+						flexDirection='column'
+					>
+					{
+						<ScrollView style={{ marginBottom: 46 }}>
+							<FlatList 
+							keyExtractor={this.keyExtractor}
+							data={this.state.courses}
+							renderItem={this.renderItem}
+							/>
+						</ScrollView>
 
-			<View style={{ margin: 30 }}>
-			<Input
-			placeholder="Course Name"
-			value={this.state.text}
-			containerStyle={{ margin: 20 }}
-			onChangeText={text => this.__updateText(text)}
-			/>
-			<Input
-			placeholder="Semester"
-			value={this.state.sem}
-			containerStyle={{ margin: 20 }}
-			onChangeText={text => this.__updateSem(text)}
-			/>
-			<Button
-			title={"Add Course"}
-			disabled={!this.state.text.length}
-			onPress={() => this.__addCourse()}
-			/>
-			</View>
-			</ScrollView>
+					}
+					</Card>
+
+					<View>
+
+					<Input
+					placeholder="Course Name"
+					value={this.state.text}
+					containerStyle={{ margin: 20 }}
+					returnKeyType='next'
+					onChangeText={text => this.__updateText(text)}
+					/>
+					<Input
+					placeholder="Semester"
+					value={this.state.sem}
+					containerStyle={{ margin: 20 }}
+					onChangeText={text => this.__updateSem(text)}
+					/>
+					<Button
+					style={{ 'margin': 30 }}
+					title={"Add Course"}
+					disabled={!this.state.text.length}
+					onPress={() => this.__addCourse()}
+					/>
+					</View>
 			</View>
 			);
 	}

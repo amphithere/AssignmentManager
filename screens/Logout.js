@@ -16,7 +16,8 @@ import {
 	Header, 
 	Input, 
 	Button, 
-	Icon 
+	Icon,
+	Card,
 } from "react-native-elements";
 
 import firebase from "react-native-firebase";
@@ -36,25 +37,15 @@ export default class Logout extends Component {
 		return (
 			<View>
 			<Header
-			leftComponent={{ icon: "menu", color: "#fff" }}
+			backgroundColor='grey'
+			leftComponent={<Icon name='menu' color='#fff' onPress={() => alert('get menu working')}/>}
 			centerComponent={{
 				text: this.state.user.email,
 				style: { color: "#fff" },
 			}}
 			rightComponent={<Icon name='arrow-back' color='#fff' onPress={() => firebase.auth().signOut()}/>}
 			/>
-			<ScrollView>
-
-			<View style={{ margin: 20 }}>
-			<Text>
-			Welcome to Assignment Manager!
-			{this.state.user.email}!
-			</Text>
-			</View>
-
 			<Course />
-			</ScrollView>
-
 			</View>
 			);
 	}
