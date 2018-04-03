@@ -11,11 +11,6 @@ target 'fbProject' do
   pod 'Firebase/Auth'
 
 
-
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
-  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
-
   target 'fbProjectTests' do
     inherit! :search_paths
     # Pods for testing

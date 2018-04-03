@@ -55,7 +55,7 @@ export default class App extends React.Component {
     }
 
     return (
-      <Logout user={this.state.user} unsubscriber={firebase.auth()}/>
+      <Logout />
     );
   }
 

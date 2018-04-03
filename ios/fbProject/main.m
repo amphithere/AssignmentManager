@@ -8,7 +8,6 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <Firebase.h>
 
 #import "AppDelegate.h"
 

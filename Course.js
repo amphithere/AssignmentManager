@@ -1,113 +1,154 @@
-import React, { Component } from 'react';
-
-import {
-	Platform,
-	StyleSheet,
-	View, 
-	ScrollView, 
-	Alert,
-} from 'react-native';
-
+import React, { Component } from "react";
 
 import { 
+	Platform, 
+	StyleSheet, 
+	View, 
+	Alert,
+	FlatList,
+	ScrollView,
+} from "react-native";
+
+import {
 	Text,
 	Input,
 	Button,
 	Header,
 	ButtonGroup,
-	List,
 	ListItem,
 	Divider,
-} from 'react-native-elements';
+} from "react-native-elements";
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 
-import firebase from 'react-native-firebase';
+import firebase from "react-native-firebase";
 
-export default class Course extends React.Component {
-	constructor(){
+export default class Course extends Component {
+	constructor() {
 		super();
-		this.ref = firebase.firestore().collection('users');
+		this.ref = firebase.firestore().collection('users').doc(String(firebase.auth().currentUser.uid)).collection('courses');
 		this.unsubscribe = null;
 		this.state = {
-			text: '',
+			text: "",
+			sem: '',
 			loading: true,
-			user: firebase.auth().currentUser,
-			courses: []
+			user: String(firebase.auth().currentUser.uid),
+			courses: [],
 		};
 	}
 
+
 	componentDidMount() {
-		this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate) 
+		this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
 	}
 
 	componentWillUnmount() {
 		this.unsubscribe();
 	}
-	__updateText(value){
-		this.setState({text: value});
+	__updateText(value) {
+		this.setState({ text: String(value) });
 	}
 
-	__addCourse(){
-		this.ref.doc(String(this.state.user.uid)).set({
-			id: this.state.user.uid
+	__updateSem(value) {
+		this.setState({ sem: String(value) });
+	}
+
+	__addCourse() {
+		var test = this.ref.doc(this.state.text);
+		test.set({
+			course_code: this.state.text,
+			semester: this.state.sem,
 		});
 
 		this.setState({
-			text:'',
+			text: '',
+			sem: '',
 		});
 	}
 
 	onCollectionUpdate = (querySnapshot) => {
 		const courses = [];
 		querySnapshot.forEach((doc) => {
-			const { uid } = doc.data();
+			const {course_code, semester} = doc.data();
 			courses.push({
 				key: doc.id,
-      doc, // DocumentSnapshot
-      uid
-  });
+				doc,
+				course_code,
+				semester
+			});
 		});
+
 		this.setState({ 
 			courses,
 			loading: false,
 		});
+
 	}
 
+	keyExtractor = (item, index) => String(index)
+	
+	renderItem = ({ item }) => (
+		<ListItem 
+		title={item.course_code} 
+		subtitle={
+			<View style={styles.subtitleView}>
+			<Text style={styles.ratingText}>{item.semester}</Text>
+			</View>
+		} 
+		/>
+		)
+
 	render() {
-		if (this.state.loading) return null; // or render a loading icon
+		if (this.state.loading) return <Text h2>hi</Text>; // or render a loading icon
 
-		return(
-			<View style={{ margin: 20 }}>
+		return (
+			<View style={{ paddingBottom: 50 }}>
+			<Text h2>List of Courses</Text>
 			<ScrollView>
-			<Divider style={{ margin: 50 }} />
-
-			<Text style={{justifyContent: 'center'}}>
-			List of Courses
-			</Text>
-			<List>
-			{
-				this.state.courses.map((item, i) => (
-					<ListItem
-					key={i}
-					title={item.uid}
-					/>
-					))
-			}
-			</List>
+			<View>
+			<FlatList 
+			keyExtractor={this.keyExtractor}
+			data={this.state.courses}
+			renderItem={this.renderItem}
+			/>
+			</View>
 			</ScrollView>
+			<ScrollView>
+
+			<View style={{ margin: 30 }}>
 			<Input
-			placeholder={'Add Course'}
+			placeholder="Course Name"
 			value={this.state.text}
-			onChangeText={(text) => this.__updateText(text)}
+			containerStyle={{ margin: 20 }}
+			onChangeText={text => this.__updateText(text)}
+			/>
+			<Input
+			placeholder="Semester"
+			value={this.state.sem}
+			containerStyle={{ margin: 20 }}
+			onChangeText={text => this.__updateSem(text)}
 			/>
 			<Button
-			text={'Add Course'}
+			title={"Add Course"}
 			disabled={!this.state.text.length}
 			onPress={() => this.__addCourse()}
 			/>
 			</View>
+			</ScrollView>
+			</View>
 			);
-
 	}
 }
+
+
+const styles = StyleSheet.create({
+	subtitleView: {
+		flexDirection: 'row',
+		paddingLeft: 10,
+		paddingTop: 5
+	},
+	ratingText: {
+		paddingLeft: 10,
+		color: 'grey'
+	}
+})

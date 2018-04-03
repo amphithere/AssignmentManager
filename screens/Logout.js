@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
 	StyleSheet,
 	View,
@@ -8,46 +8,53 @@ import {
 	UIManager,
 	KeyboardAvoidingView,
 	Alert,
-} from 'react-native';
+	ScrollView,
+} from "react-native";
 
-import {
-	Text,
-	Header,
+import { 
+	Text, 
+	Header, 
 	Input, 
-	Button 
-} from 'react-native-elements'
+	Button, 
+	Icon 
+} from "react-native-elements";
 
-import firebase from 'react-native-firebase';
+import firebase from "react-native-firebase";
 
-import Course from '../Course';
+import Course from "../Course";
 
-export default class LoggedOut extends React.Component {
-	constructor(){
+
+
+export default class Logout extends Component {
+	constructor() {
 		super();
 		this.state = {
 			user: firebase.auth().currentUser,
-		}
+		};
 	}
-	render(){
+	render() {
 		return (
 			<View>
 			<Header
-			leftComponent={{ icon: 'menu', color: '#fff' }}
-			centerComponent={{ text: this.props.user.email, style: { color: '#fff' } }}
-			rightComponent={{ icon: 'home', color: '#fff' }}
+			leftComponent={{ icon: "menu", color: "#fff" }}
+			centerComponent={{
+				text: this.state.user.email,
+				style: { color: "#fff" },
+			}}
+			rightComponent={<Icon name='arrow-back' color='#fff' onPress={() => firebase.auth().signOut()}/>}
 			/>
-			<View style={{margin: 20}}>
+			<ScrollView>
+
+			<View style={{ margin: 20 }}>
 			<Text>
 			Welcome to Assignment Manager!
 			{this.state.user.email}!
 			</Text>
 			</View>
 
-			<Button
-			onPress={() => this.props.unsubscriber.signOut()}
-			text={'Log Out'}
-			/>
-			<Course/>
+			<Course />
+			</ScrollView>
+
 			</View>
 			);
 	}
