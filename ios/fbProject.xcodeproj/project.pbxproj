@@ -283,6 +283,13 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		B344387520766DB2006B722B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B344387120766DAF006B722B /* ReactNativeNavigation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8AFADBD1BEE6F3F00A4592D;
+			remoteInfo = ReactNativeNavigation;
+		};
 		B38CF5AE2071DD1800C4C7EE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -398,6 +405,8 @@
 		8A4D725874FE96E754A6276D /* libPods-fbProjectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fbProjectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78F9C05F27D4DEDB11228F4 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		B344384820766D60006B722B /* Desktop */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Desktop; path = ../..; sourceTree = "<group>"; };
+		B344387120766DAF006B722B /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		B3529111207262B600B3B7A0 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Light.ttf"; path = "../public/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		B3529139207262B600B3B7A0 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Bold.ttf"; path = "../public/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		B352913A207262B600B3B7A0 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Regular.ttf"; path = "../public/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
@@ -602,6 +611,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B344384820766D60006B722B /* Desktop */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				52D18C97BB868CE7B620B8FE /* libPods-fbProject.a */,
 				4923CE1DDDA90BEA0DC6952C /* libPods-fbProject-tvOS.a */,
@@ -632,6 +642,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B344387120766DAF006B722B /* ReactNativeNavigation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -735,6 +746,14 @@
 			children = (
 				ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */,
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B344387220766DAF006B722B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B344387620766DB2006B722B /* libReactNativeNavigation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -932,6 +951,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = B344387220766DAF006B722B /* Products */;
+					ProjectRef = B344387120766DAF006B722B /* ReactNativeNavigation.xcodeproj */;
 				},
 				{
 					ProductGroup = B38CF60A2071E1AA00C4C7EE /* Products */;
@@ -1154,6 +1177,13 @@
 			fileType = archive.ar;
 			path = libRCTBlob.a;
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B344387620766DB2006B722B /* libReactNativeNavigation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeNavigation.a;
+			remoteRef = B344387520766DB2006B722B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B38CF5AF2071DD1800C4C7EE /* libjsinspector.a */ = {

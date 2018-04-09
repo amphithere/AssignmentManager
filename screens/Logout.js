@@ -22,7 +22,7 @@ import {
 
 import firebase from "react-native-firebase";
 
-import Course from "../Course";
+import Course from "./Course";
 
 
 
@@ -38,7 +38,7 @@ export default class Logout extends Component {
 			<View>
 			<Header
 			backgroundColor='grey'
-			leftComponent={<Icon name='menu' color='#fff' onPress={() => alert('get menu working')}/>}
+			leftComponent={<Icon name='menu' color='#fff' onPress={(component) => alert('get menu working')}/>}
 			centerComponent={{
 				text: this.state.user.email,
 				style: { color: "#fff" },

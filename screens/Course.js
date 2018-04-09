@@ -21,6 +21,8 @@ import {
 	Card
 } from "react-native-elements";
 
+import { Navigation } from 'react-native-navigation';
+
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import firebase from "react-native-firebase";
