@@ -8,6 +8,9 @@ import {
 	FlatList,
 	ScrollView,
 	Dimensions,
+	Modal,
+	TouchableHighlight,
+	Animated
 } from "react-native";
 
 import {
@@ -27,6 +30,10 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import firebase from "react-native-firebase";
 
+import Assignments from "./Assignments";
+
+import Main from './Navigation';
+
 export default class Course extends Component {
 	constructor() {
 		super();
@@ -38,6 +45,7 @@ export default class Course extends Component {
 			loading: true,
 			user: String(firebase.auth().currentUser.uid),
 			courses: [],
+			modalVisible: false,
 		};
 	}
 
@@ -60,7 +68,7 @@ export default class Course extends Component {
 	__addCourse() {
 		var test = this.ref.doc(this.state.text);
 		test.set({
-			course_code: this.state.text,
+			course_name: this.state.text,
 			semester: this.state.sem,
 		});
 
@@ -73,11 +81,11 @@ export default class Course extends Component {
 	onCollectionUpdate = (querySnapshot) => {
 		const courses = [];
 		querySnapshot.forEach((doc) => {
-			const {course_code, semester} = doc.data();
+			const {course_name, semester} = doc.data();
 			courses.push({
 				key: doc.id,
 				doc,
-				course_code,
+				course_name,
 				semester
 			});
 		});
@@ -89,24 +97,30 @@ export default class Course extends Component {
 
 	}
 
+	__renderAssignments(item){
+		return(
+			<Assignments course={item} />
+		);
+	}
+
 	keyExtractor = (item, index) => String(index)
 	
 	renderItem = ({ item }) => (
 		<View>
-		<ListItem 
-		chevron
-		bottomDivider={true}
-		title={item.course_code} 
-		subtitle={
-			<View style={styles.subtitleView}>
-				<Text style={styles.ratingText}>{item.semester}</Text>
-			</View>
-		} 
-		/>
+			<ListItem 
+			chevron
+			bottomDivider
+			topDivider
+			title={item.course_name} 
+			subtitle={
+				<View style={styles.subtitleView}>
+					<Text style={styles.ratingText}>{item.semester}</Text>
+					{this.__renderAssignments(item)}
+				</View>
+			} 
+			/>
 		</View>
 		)
-
-
 
 
 	render() {
@@ -114,45 +128,47 @@ export default class Course extends Component {
 
 		return (
 			<View>
-					<Card 
-						title='List of Courses'
-						containerStyle={{height: 300}}
-						flexDirection='column'
-					>
-					{
-						<ScrollView style={{ marginBottom: 46 }}>
-							<FlatList 
-							keyExtractor={this.keyExtractor}
-							data={this.state.courses}
-							renderItem={this.renderItem}
-							/>
-						</ScrollView>
+			<Card 
+			title='List of Courses'
+			containerStyle={{height: 300}}
+			flexDirection='column'
+			>
 
-					}
-					</Card>
+			{
+				<ScrollView style={{ marginBottom: 46 }}>
+				<FlatList 
+				keyExtractor={this.keyExtractor}
+				data={this.state.courses}
+				renderItem={this.renderItem}
+				/>
+				</ScrollView>
 
-					<View>
+			}
+						<Main />
 
-					<Input
-					placeholder="Course Name"
-					value={this.state.text}
-					containerStyle={{ margin: 20 }}
-					returnKeyType='next'
-					onChangeText={text => this.__updateText(text)}
-					/>
-					<Input
-					placeholder="Semester"
-					value={this.state.sem}
-					containerStyle={{ margin: 20 }}
-					onChangeText={text => this.__updateSem(text)}
-					/>
-					<Button
-					style={{ 'margin': 30 }}
-					title={"Add Course"}
-					disabled={!this.state.text.length}
-					onPress={() => this.__addCourse()}
-					/>
-					</View>
+			</Card>
+			<View>
+
+			<Input
+			placeholder="Course Name"
+			value={this.state.text}
+			containerStyle={{ margin: 20 }}
+			returnKeyType='next'
+			onChangeText={text => this.__updateText(text)}
+			/>
+			<Input
+			placeholder="Semester"
+			value={this.state.sem}
+			containerStyle={{ margin: 20 }}
+			onChangeText={text => this.__updateSem(text)}
+			/>
+			<Button
+			style={{ 'margin': 30 }}
+			title={"Add Course"}
+			disabled={!this.state.text.length}
+			onPress={() => this.__addCourse()}
+			/>
+			</View>
 			</View>
 			);
 	}
@@ -161,7 +177,8 @@ export default class Course extends Component {
 
 const styles = StyleSheet.create({
 	subtitleView: {
-		flexDirection: 'row',
+		flex:1,
+		flexDirection: 'column',
 		paddingLeft: 10,
 		paddingTop: 5
 	},

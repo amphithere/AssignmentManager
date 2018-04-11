@@ -33,6 +33,7 @@ const TabSelector = ({ selected }) => {
     );
 };
 
+
 TabSelector.propTypes = {
   selected: PropTypes.bool.isRequired,
 };
@@ -216,6 +217,7 @@ export default class Login extends Component {
           onSubmitEditing={() => this.passwordInput.focus()}
           onChangeText={email => this.setState({ email })}
           displayError={!isEmailValid}
+          shake={true}
           errorMessage="Please enter a valid email address"
           />
           <Input

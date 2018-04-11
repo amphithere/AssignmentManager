@@ -11,6 +11,10 @@ import {
 	FlatList,
 	ScrollView,
 	Dimensions,
+	DatePickerIOS,
+	Image,
+	TouchableHighlight,
+	Animated,
 } from "react-native";
 
 import {
@@ -24,14 +28,106 @@ import {
 	Card
 } from "react-native-elements";
 
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import firebase from "react-native-firebase";
 
-export default class Assignment extends Component {
-	constructor() {
-		super();
-		this.ref = firebase.firestore().collection('users').doc(String(firebase.auth().currentUser.uid)).collection('courses').doc(this.props.course_name);
+
+export default class Assignments extends Component {
+	constructor(props) {
+		super(props);
+		this.ref = firebase.firestore().collection('users').doc(String(firebase.auth().currentUser.uid)).collection('courses').doc(this.props.course.course_name).collection('Assignments');
 		this.unsubscribe = null;
+		this.setDate = this.setDate.bind(this);
+		this.state = { 
+			chosenDate: new Date(),
+			assign_name: '',
+			assignments:[],
+			loading: true,
+		};
+
+
+	}
+	componentDidMount() {
+		this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
+	}
+	setDate(newDate) {
+		this.setState({chosenDate: newDate})
+	}
+
+	onCollectionUpdate = (querySnapshot) => {
+		const assignments = [];
+		querySnapshot.forEach((doc) => {
+			const {assign_name, due_date} = doc.data();
+			assignments.push({
+				key: doc.id,
+				doc,
+				assign_name,
+				due_date,
+			});
+		});
+
+		this.setState({ 
+			assignments,
+			loading: false,
+		});
+
+	}
+
+	__addAssignment(){
+		var test = this.ref.doc(this.state.assign_name);
+		test.set({
+			assign_name: this.state.assign_name,
+			due_date: this.state.chosenDate,
+		});
+
+		this.setState({
+			assign_name: '',
+		});
+	}
+
+	__updateText(text){
+		this.setState({assign_name: String(text)});
+	}
+
+	render() {
+		return(
+			<View>
+			<Text>{this.props.course.course_name}</Text>
+				<ScrollView horizontal={true}>
+					<View>
+						<Calendar
+						onDayPress={(day) => {console.log('selected day', day)}}
+						monthFormat={'MMM yyyy'} />
+				  	</View>
+				  	<View>
+					  <Input
+					  placeholder="Assignment Name"
+					  value={this.state.assign_name}
+					  returnKeyType='next'
+					  onChangeText={text => this.__updateText(text)}
+					  />
+					  <DatePickerIOS
+					  date={this.state.chosenDate}
+					  onDateChange={this.setDate}
+					  />
+					  <Button
+					  style={{ 'margin': 10 }}
+					  title={"Add Assignment"}
+					  onPress={() => this.__addAssignment()}
+					  />
+				  	</View>
+				  <Card>
+				 	 <Text>hi</Text>
+				  </Card>
+			  </ScrollView>
+		  </View>
+			  );
 	}
 }

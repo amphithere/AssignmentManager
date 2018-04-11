@@ -23,6 +23,8 @@ import {
 import firebase from "react-native-firebase";
 
 import Course from "./Course";
+import Login from "./Login";
+import Main from './Navigation';
 
 
 
@@ -34,19 +36,33 @@ export default class Logout extends Component {
 		};
 	}
 	render() {
-		return (
-			<View>
-			<Header
-			backgroundColor='grey'
-			leftComponent={<Icon name='menu' color='#fff' onPress={(component) => alert('get menu working')}/>}
-			centerComponent={{
-				text: this.state.user.email,
-				style: { color: "#fff" },
-			}}
-			rightComponent={<Icon name='arrow-back' color='#fff' onPress={() => firebase.auth().signOut()}/>}
-			/>
-			<Course />
-			</View>
-			);
+		if (this.state.user==null){
+			return (
+				<View>
+				<Text>No one is logged in!</Text>
+				<Login />
+
+				</View>
+				)
+		}
+		else {
+			return (
+				<View>
+				<Main />
+
+				<Header
+				backgroundColor='grey'
+				leftComponent={<Icon name='menu' color='#fff' onPress={(component) => alert('get menu working')}/>}
+				centerComponent={{
+					text: "Assignment Manager",
+					style: { color: "#fff" },
+				}}
+				rightComponent={<Icon name='arrow-back' color='#fff' onPress={() => firebase.auth().signOut()}/>}
+				/>
+				<Text>{this.state.user.email}</Text>
+				<Course />
+				</View>
+				);
+		}
 	}
 }

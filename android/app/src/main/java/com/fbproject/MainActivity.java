@@ -2,6 +2,11 @@ package com.fbproject;
 
 import com.facebook.react.ReactActivity;
 import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.RNFirebasePackage;
 import com.reactnativenavigation.NavigationReactPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.RNFirebasePackage;
