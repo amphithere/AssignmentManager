@@ -24,7 +24,6 @@ import firebase from "react-native-firebase";
 
 import Course from "./Course";
 import Login from "./Login";
-import Main from './Navigation';
 
 
 
@@ -48,8 +47,6 @@ export default class Logout extends Component {
 		else {
 			return (
 				<View>
-				<Main />
-
 				<Header
 				backgroundColor='grey'
 				leftComponent={<Icon name='menu' color='#fff' onPress={(component) => alert('get menu working')}/>}

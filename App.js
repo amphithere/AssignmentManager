@@ -11,6 +11,15 @@ import {
   ScrollView, 
 } from 'react-native';
 
+import { 
+  StackNavigator,
+  TabNavigator,
+} from 'react-navigation';
+
+
+import Assignments from './screens/Assignments';
+import Course from './screens/Course';
+
 
 import { 
   Text,
@@ -22,7 +31,6 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import firebase from 'react-native-firebase';
-
 
 export default class App extends React.Component {
 
@@ -51,12 +59,45 @@ export default class App extends React.Component {
 
   render() {
     if (!this.state.user) {
-      return <Login />;
+      return(
+        <Login />
+      ); 
     }
 
     return (
+      <View>
       <Logout />
+      </View>
     );
   }
 
 }
+
+
+
+
+
+// class HomeScreen extends React.Component {
+//   render() {
+//     return (
+//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         <Text>Home!</Text>
+//       </View>
+//     );
+//   }
+// }
+
+// class SettingsScreen extends React.Component {
+//   render() {
+//     return (
+//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         <Text>Settings!</Text>
+//       </View>
+//     );
+//   }
+// }
+
+// export default TabNavigator({
+//   Home: { screen: Login },
+//   Settings: { screen: Logout },
+// });

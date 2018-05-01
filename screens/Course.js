@@ -24,19 +24,18 @@ import {
 	Card
 } from "react-native-elements";
 
-import { Navigation } from 'react-native-navigation';
+import { 
+	Navigation,
+} from 'react-native-navigation';
 
 import Icon from "react-native-vector-icons/FontAwesome";
-
 import firebase from "react-native-firebase";
-
 import Assignments from "./Assignments";
-
-import Main from './Navigation';
+import Collapsible from 'react-native-collapsible';
 
 export default class Course extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.ref = firebase.firestore().collection('users').doc(String(firebase.auth().currentUser.uid)).collection('courses');
 		this.unsubscribe = null;
 		this.state = {
@@ -45,7 +44,6 @@ export default class Course extends Component {
 			loading: true,
 			user: String(firebase.auth().currentUser.uid),
 			courses: [],
-			modalVisible: false,
 		};
 	}
 
@@ -83,10 +81,12 @@ export default class Course extends Component {
 		querySnapshot.forEach((doc) => {
 			const {course_name, semester} = doc.data();
 			courses.push({
+				ind: courses.length,
 				key: doc.id,
 				doc,
 				course_name,
-				semester
+				semester,
+				isCollapsed: true,
 			});
 		});
 
@@ -94,31 +94,45 @@ export default class Course extends Component {
 			courses,
 			loading: false,
 		});
-
 	}
 
 	__renderAssignments(item){
 		return(
 			<Assignments course={item} />
-		);
+			);
+	}
+	
+	__toggleCollapse = (item) => {
+		var tempCourses = this.state.courses;
+		var flag = !tempCourses[item.ind].isCollapsed;
+		tempCourses[item.ind].isCollapsed = flag;
+		this.setState({
+			courses: tempCourses
+		});
 	}
 
-	keyExtractor = (item, index) => String(index)
+	__keyExtractor = (item, index) => item.ind
 	
-	renderItem = ({ item }) => (
+	__renderItem = ({ item }) => (
 		<View>
-			<ListItem 
-			chevron
-			bottomDivider
-			topDivider
-			title={item.course_name} 
-			subtitle={
-				<View style={styles.subtitleView}>
-					<Text style={styles.ratingText}>{item.semester}</Text>
-					{this.__renderAssignments(item)}
-				</View>
-			} 
-			/>
+		<ListItem 
+		chevron
+		bottomDivider
+		topDivider
+		title={item.course_name} 
+		onPress={() => this.__toggleCollapse(item)}
+		subtitle={
+			<View style={styles.subtitleView}>
+			<Text style={styles.ratingText}>
+			{item.semester}
+			</Text>
+			<Collapsible collapsed={item.isCollapsed}>
+			{this.__renderAssignments(item)}
+			</Collapsible>
+			</View>
+
+		} 
+		/>
 		</View>
 		)
 
@@ -137,14 +151,14 @@ export default class Course extends Component {
 			{
 				<ScrollView style={{ marginBottom: 46 }}>
 				<FlatList 
-				keyExtractor={this.keyExtractor}
+				extraData={this.state.courses}
+				keyExtractor={this.__keyExtractor}
 				data={this.state.courses}
-				renderItem={this.renderItem}
+				renderItem={this.__renderItem}
 				/>
 				</ScrollView>
 
 			}
-						<Main />
 
 			</Card>
 			<View>
@@ -179,11 +193,8 @@ const styles = StyleSheet.create({
 	subtitleView: {
 		flex:1,
 		flexDirection: 'column',
-		paddingLeft: 10,
-		paddingTop: 5
 	},
 	ratingText: {
-		paddingLeft: 10,
 		color: 'grey'
 	}
 })

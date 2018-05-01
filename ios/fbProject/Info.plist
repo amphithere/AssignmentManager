@@ -53,12 +53,12 @@
     </dict>
     <key>UIAppFonts</key>
     <array>
-      <string>Ubuntu-Light-Italic.ttf</string>
       <string>Ubuntu-Light.ttf</string>
-      <string>Ubuntu-Bold.ttf</string>
-      <string>Montserrat-Regular.ttf</string>
-      <string>Montserrat-Light.ttf</string>
       <string>Montserrat-Bold.ttf</string>
+      <string>Ubuntu-Light-Italic.ttf</string>
+      <string>Montserrat-Light.ttf</string>
+      <string>Montserrat-Regular.ttf</string>
+      <string>Ubuntu-Bold.ttf</string>
       <string>Georgia.ttf</string>
       <string>Entypo.ttf</string>
       <string>EvilIcons.ttf</string>

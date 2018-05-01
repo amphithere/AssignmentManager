@@ -98,24 +98,24 @@ export default class Assignments extends Component {
 
 	render() {
 		return(
-			<View>
-			<Text>{this.props.course.course_name}</Text>
-				<ScrollView horizontal={true}>
-					<View>
+			<View 
+				style={{ 
+					flex: 1, 
+					flexDirection: 'column',
+ 				}}>
+				<ScrollView style={{ flex: 1 }}>
+					<View style={{ flex: 1 }}>
 						<Calendar
-						onDayPress={(day) => {console.log('selected day', day)}}
-						monthFormat={'MMM yyyy'} />
+						onDayPress={(day) => alert(JSON.stringify(day))}
+						monthFormat={'MMM yyyy'} 
+						/>
 				  	</View>
-				  	<View>
+				  	<View style={{ flex: 1 }}>
 					  <Input
 					  placeholder="Assignment Name"
 					  value={this.state.assign_name}
 					  returnKeyType='next'
 					  onChangeText={text => this.__updateText(text)}
-					  />
-					  <DatePickerIOS
-					  date={this.state.chosenDate}
-					  onDateChange={this.setDate}
 					  />
 					  <Button
 					  style={{ 'margin': 10 }}
@@ -123,9 +123,6 @@ export default class Assignments extends Component {
 					  onPress={() => this.__addAssignment()}
 					  />
 				  	</View>
-				  <Card>
-				 	 <Text>hi</Text>
-				  </Card>
 			  </ScrollView>
 		  </View>
 			  );
